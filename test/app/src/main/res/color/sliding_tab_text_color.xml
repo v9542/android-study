@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--focus -->
+    <item android:color="@color/colorPrimary" android:state_focused="true"/>
+
+    <!--현재 탭 -->
+    <item android:color="@color/colorPrimary" android:state_selected="true"/>
+
+    <!--클릭했을 때-->
+    <item android:color="@color/colorPrimary" android:state_pressed="true"/>
+
+    <!--평상시-->
+    <item android:color="@color/light_gray" />
+</selector>
