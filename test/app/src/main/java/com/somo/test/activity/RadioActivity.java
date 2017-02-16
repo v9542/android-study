@@ -1,6 +1,7 @@
 package com.somo.test.activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,7 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -25,6 +29,7 @@ import com.somo.test.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +40,9 @@ public class RadioActivity extends AppCompatActivity {
 
     final static int PICK_PICTURE = 1000;
 
+    Resources res;
+    DisplayMetrics dm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +50,19 @@ public class RadioActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         viewGroup.setOnCheckedChangeListener(listenr);
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        res = getResources();
+        // Change locale settings in the app.
+        dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.locale = new Locale("en");
+        res.updateConfiguration(conf, dm);
     }
 
     RadioGroup.OnCheckedChangeListener listenr = new RadioGroup.OnCheckedChangeListener() {
@@ -67,4 +88,20 @@ public class RadioActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch(id) {
+            case R.id.action_add :
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

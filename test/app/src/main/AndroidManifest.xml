@@ -4,10 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
@@ -25,35 +25,38 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SecondActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.TabActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.TTSActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ActionBarActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.ChartActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".activity.RadioActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.RadioActivity" />
 
         <receiver
-            android:name="com.somo.test.receiver.MessageReceiver"
+            android:name=".receiver.MessageReceiver"
             android:exported="true">
             <intent-filter android:priority="999">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
-                <action android:name="ON_ACTION"/>
-                <action android:name="OFF_ACTION"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="ON_ACTION" />
+                <action android:name="OFF_ACTION" />
             </intent-filter>
         </receiver>
-    </application>
 
+        <activity
+            android:name=".activity.Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
 
 </manifest>

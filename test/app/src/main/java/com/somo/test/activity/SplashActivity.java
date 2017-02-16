@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
@@ -33,6 +35,10 @@ public class SplashActivity extends AppCompatActivity {
     Handler mHandler;
     NotificationManager manager;
     Notification noti;
+    RelativeLayout tutorial;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +53,12 @@ public class SplashActivity extends AppCompatActivity {
 
         PendingIntent offPIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), offIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+
         noti = new Notification.Builder(this).setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText("아메리카노가 할인중입니다")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setOngoing(true)
+                .setContent(makeNotiLayout(onPIntent, offPIntent))
                 .addAction(R.drawable.btn_green_highlight, "On", onPIntent)
                 .addAction(R.drawable.library_btn_navermap_bg, "Off", offPIntent)
                 .build();
@@ -65,6 +73,33 @@ public class SplashActivity extends AppCompatActivity {
         registerReceiver(new MessageReceiver(), intentFilter);
 
 //        addImageView();
+
+        pref = getSharedPreferences("isFirst", 0);
+        edit = pref.edit();
+
+        boolean isFirst = pref.getBoolean("isFirst", true);
+        tutorial = (RelativeLayout)findViewById(R.id.tutorial);
+
+        if(isFirst) {
+            tutorial.setVisibility(View.VISIBLE);
+            edit.putBoolean("isFirst", false);
+            edit.commit();
+        }else {
+            tutorial.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    protected RemoteViews makeNotiLayout(PendingIntent onPIntent, PendingIntent offPIntent) {
+        RemoteViews notificationView = new RemoteViews(
+                getPackageName(),
+                R.layout.activity_custom_notification
+        );
+
+        // Locate and set the Text into customnotificationtext.xml TextViews
+        notificationView.setOnClickPendingIntent(R.id.on_btn, onPIntent);
+        notificationView.setOnClickPendingIntent(R.id.off_btn, offPIntent);
+
+        return notificationView;
     }
 
     protected void addImageView() {

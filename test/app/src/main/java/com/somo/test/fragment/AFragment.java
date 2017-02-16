@@ -59,7 +59,6 @@ public class AFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.d("Yebon", "tette");
         getActivity().getMenuInflater().inflate(R.menu.menu_add, menu);
     }
 }
