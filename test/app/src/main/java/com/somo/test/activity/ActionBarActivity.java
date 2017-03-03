@@ -1,6 +1,8 @@
 package com.somo.test.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.somo.test.R;
 import com.somo.test.adapter.MyRecyclerViewAdapter;
+import com.somo.test.adapter.ViewPagerAdapter;
+import com.somo.test.fragment.ImageFragment;
 import com.somo.test.model.Data;
 
 import java.util.ArrayList;
@@ -18,84 +22,108 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ActionBarActivity extends AppCompatActivity {
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @Bind(R.id.viewPager)
+    ViewPager viewPager;
 
-    boolean scroll_down;
-    ArrayList<Data> data;
+    ViewPagerAdapter adapter;
 
-    MyRecyclerViewAdapter adapter;
+    ArrayList<ImageFragment> fragmentList;
+    int dataSize;
+    int[] img = {R.drawable.bg_speech, R.drawable.btn_green_pressed, R.drawable.btn_green_normal};
+    Handler transformHandler;
+    boolean isPlaying;
+    int nowPageIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_actionbar);
+        setContentView(R.layout.activity_viewpager);
         ButterKnife.bind(this);
 
-        initializeActionBar();
 
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.setPager(viewPager); //only for this transformer
         setData();
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyRecyclerViewAdapter(this, data);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(scrollListener);
-
+        transformHandler = new Handler();
+        transformHandler.postDelayed(transformPageRunnable, 2*1000);
+        viewPager.setOnPageChangeListener(pageChangeListener);
     }
-
 
     private void setData() {
-        data = new ArrayList<>();
-        Data temp = new Data();
-        temp.profile = R.mipmap.ic_launcher;
-        temp.address = "주소";
-        temp.name = "text test";
-        temp.position = "직업";
-        Data temp2 = new Data();
-        temp.profile = R.mipmap.ic_launcher;
-        temp.address = "주소2";
-        temp.name = "text2 test2";
-        temp.position = "직업2";
-        data.add(temp);
-        data.add(temp2);
-        for(int i=0; i<3; i++) {
-            data.add(temp);
-            data.add(temp2);
+        Bundle bundleTmp;
+        ImageFragment fragmentTmp;
+
+        fragmentList = new ArrayList<ImageFragment>();
+        dataSize = 3;
+        for (int i = 0; i < dataSize; i++) {
+            bundleTmp = new Bundle();
+            bundleTmp.putInt("image", img[i]);
+            fragmentTmp = new ImageFragment();
+            fragmentTmp.setArguments(bundleTmp);
+            fragmentList.add(fragmentTmp);
+            adapter.add(fragmentTmp);
         }
     }
 
-    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+    Runnable transformPageRunnable = new Runnable() {
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
+        public void run() {
 
-            if(scroll_down)
-                getSupportActionBar().show();
-            else
-                getSupportActionBar().hide();
-        }
+                if (nowPageIndex == dataSize) {
+                    setPageToPre();
+                    loadNextData();
+                } else {
+                    nowPageIndex++;
+                }
 
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
+                viewPager.setCurrentItem(nowPageIndex);
 
-
-            if (dy > 70) {
-                //scroll down
-                scroll_down = true;
-
-            } else if (dy < -5) {
-                //scroll up
-                scroll_down = false;
-            }
+                if (isPlaying) {
+                    transformHandler.postDelayed(this, 2 * 1000);
+                }
         }
     };
 
-    private void initializeActionBar() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("aaa");
+
+    protected void setPageToPre() {
+        viewPager.setCurrentItem(nowPageIndex - 1);
     }
 
+
+    private void loadNextData() {
+        ImageFragment nextScreen;
+        int tmp;
+
+        nextScreen = fragmentList.get(0);
+        fragmentList.remove(0);
+        fragmentList.add(dataSize - 1, nextScreen);
+        tmp = img[0];
+        img[0] = img[1];
+        img[1] = img[2];
+        img[2]=tmp;
+        if (isPlaying) {
+            adapter.setmFragments(fragmentList);
+        }
+    }
+
+
+    ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            nowPageIndex = position;
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if (state == 1 && nowPageIndex == dataSize-1) {
+                setPageToPre();
+                loadNextData();
+                viewPager.setCurrentItem(nowPageIndex);
+            }
+        }
+    };
 }

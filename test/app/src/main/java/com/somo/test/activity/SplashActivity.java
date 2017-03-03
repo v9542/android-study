@@ -139,7 +139,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void run() {
             manager.notify(0, noti);
-            startActivity(new Intent(SplashActivity.this, RadioActivity.class));
+            startActivity(new Intent(SplashActivity.this, ExpandableActivity.class));
         }
     };
 
