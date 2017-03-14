@@ -2,6 +2,7 @@ package com.somo.test.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,6 +24,7 @@ import com.somo.test.Util;
 import com.somo.test.adapter.AutoCompleteAdapter;
 import com.somo.test.adapter.ListAdapter;
 import com.somo.test.adapter.MyRecyclerViewAdapter;
+import com.somo.test.listener.EndlessRecyclerOnScrollListener;
 import com.somo.test.model.Data;
 import com.somo.test.server.ArticleClass;
 import com.somo.test.server.ArticleListClassResponse;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     @Bind(R.id.auto)
     AutoCompleteTextView textView;
+    @Bind(R.id.refresh)
+    SwipeRefreshLayout refreshLayout;
 
     MyRecyclerViewAdapter adapter;
 
@@ -59,23 +63,37 @@ public class MainActivity extends AppCompatActivity {
     AutoCompleteAdapter autoAdapter;
     LoadingDialog loadingDialog;
 
+    GridLayoutManager gridLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        loadingDialog = new LoadingDialog(MainActivity.this, task);
-        loadingDialog.execute();
+//        loadingDialog = new LoadingDialog(this, task);
+//        loadingDialog.execute();
 
         data = new ArrayList<Data>();
         setData();
 
         Intent i;
 
-        listView.setLayoutManager(new GridLayoutManager(this, 2));
+        gridLayoutManager = new GridLayoutManager(this, 2);
+        listView.setLayoutManager(gridLayoutManager);
+        gridLayoutManager.scrollToPosition(0);
         adapter = new MyRecyclerViewAdapter(MainActivity.this, data);
         listView.setAdapter(adapter);
+        listView.addOnScrollListener(new EndlessRecyclerOnScrollListener(refreshLayout) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                data.add(new Data(1, R.drawable.bg_speech, "weafawef", "awefawef", "awgeaweg"));
+                data.add(new Data(1, R.mipmap.ic_launcher, "dfssf", "sfsef", "seffes"));
+                data.add(new Data(1, R.mipmap.ic_launcher, "caa", "aac", "caaa"));
+                adapter.notifyDataSetChanged();
+            }
+        });
+        refreshLayout.setOnRefreshListener(refreshListener);
 
 
         User user = new User();
@@ -90,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            data.add(new Data(1, R.mipmap.ic_launcher, "a", "a", "a"));
+            data.add(new Data(1, R.mipmap.ic_launcher, "b", "b", "b"));
+            data.add(new Data(1, R.mipmap.ic_launcher, "c", "c", "c"));
+            refreshLayout.setRefreshing(false);
+            adapter.notifyDataSetChanged();
+        }
+    };
 
 
     LoadingTask task = new LoadingTask() {

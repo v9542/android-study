@@ -70,7 +70,7 @@ public class SplashActivity extends AppCompatActivity {
 
         intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
 
-        registerReceiver(new MessageReceiver(), intentFilter);
+//        registerReceiver(new MessageReceiver(), intentFilter);
 
 //        addImageView();
 
@@ -98,6 +98,7 @@ public class SplashActivity extends AppCompatActivity {
         // Locate and set the Text into customnotificationtext.xml TextViews
         notificationView.setOnClickPendingIntent(R.id.on_btn, onPIntent);
         notificationView.setOnClickPendingIntent(R.id.off_btn, offPIntent);
+        notificationView.setImageViewResource(R.id.on_btn, R.drawable.ic_pin_02);
 
         return notificationView;
     }
@@ -139,7 +140,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void run() {
             manager.notify(0, noti);
-            startActivity(new Intent(SplashActivity.this, ExpandableActivity.class));
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
         }
     };
 

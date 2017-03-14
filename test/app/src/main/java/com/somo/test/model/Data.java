@@ -12,4 +12,17 @@ public class Data implements Serializable{
     public String address;
     public String name;
     public String position;
+
+
+    public Data() {
+
+    }
+
+    public Data(int id, int profile, String address, String name, String position) {
+        this.id = id;
+        this.profile = profile;
+        this.address = address;
+        this.name = name;
+        this.position = position;
+    }
 }
