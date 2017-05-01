@@ -1,16 +1,19 @@
-package com.somo.test.server;
+package com.somo.test.server.serverinterface;
 
 
-import com.squareup.okhttp.ResponseBody;
+import com.somo.test.server.ArticleListClassResponse;
+import com.somo.test.server.BasicResponse;
+import com.somo.test.server.ClearTimeRequest;
+import com.somo.test.server.RequirementRequest;
+import com.somo.test.server.model.Person;
+import com.somo.test.server.model.PersonResponse;
 
 import retrofit.Call;
 import retrofit.http.Body;
-import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
-import retrofit.http.Query;
 
 /**
  * Created by Omjoon on 2015. 12. 7..
@@ -57,4 +60,8 @@ public interface ServerAPI {
 //
 //    @GET("api/v2/guest/movie/{movie_name}")
 //    Call<ResponseBody> getMovie(@Path("movie_name") String movie_name);
+
+
+    @POST("/api/person")
+    Call<PersonResponse> postPerson(@Body Person p);
 }

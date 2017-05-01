@@ -1,6 +1,4 @@
-package com.somo.test.server;
-
-import android.util.Base64;
+package com.somo.test.server.serverinterface;
 
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
@@ -26,7 +24,7 @@ public class ServiceGenerator extends NetDefine {
                     .baseUrl(getBasicPath())
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("mm/dd/yyyy HH:mm").create()));
 
-    public static <S> S createService(Class<S> serviceClass) {
+    public static <S> S createService(Class<S> serviceClass,final boolean isFile) {
         if (logging == null) {
             logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -43,8 +41,12 @@ public class ServiceGenerator extends NetDefine {
                 // Request customization: add request headers
                 Request.Builder requestBuilder = original.newBuilder()
                         .header("Content-Type", "application/json")
-                        .header("Authorization", "JWT " + "3")
+                        .header("Device", "IT")
+                        .header("cid", "1001")
                         .method(original.method(), original.body());
+                if (isFile) {
+                    requestBuilder.header("Content-Type", "multipart/form-data");
+                }
                 Request request = requestBuilder.build();
                 return chain.proceed(request);
             }

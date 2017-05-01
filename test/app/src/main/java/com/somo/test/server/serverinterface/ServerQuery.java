@@ -1,6 +1,11 @@
-package com.somo.test.server;
+package com.somo.test.server.serverinterface;
 
-import com.squareup.okhttp.ResponseBody;
+import com.somo.test.server.ArticleListClassResponse;
+import com.somo.test.server.BasicResponse;
+import com.somo.test.server.ClearTimeRequest;
+import com.somo.test.server.RequirementRequest;
+import com.somo.test.server.model.Person;
+import com.somo.test.server.model.PersonResponse;
 
 import retrofit.Call;
 
@@ -15,7 +20,7 @@ public class ServerQuery {
 
 
     public static void postRequirement(RequirementRequest request, retrofit.Callback callback) {
-        Call<BasicResponse> call = ServiceGenerator.createService(ServerAPI.class).postRequiremnet(request);
+        Call<BasicResponse> call = ServiceGenerator.createService(ServerAPI.class, false).postRequiremnet(request);
         call.enqueue(callback);
     }
 
@@ -25,7 +30,7 @@ public class ServerQuery {
 //    }
 //
     public static void putClearTime(int phone_id, ClearTimeRequest request, retrofit.Callback callback) {
-        Call<BasicResponse> call = ServiceGenerator.createService(ServerAPI.class).putClearTime(phone_id, request);
+        Call<BasicResponse> call = ServiceGenerator.createService(ServerAPI.class, false).putClearTime(phone_id, request);
         call.enqueue(callback);
     }
 //
@@ -40,7 +45,7 @@ public class ServerQuery {
 //    }
 //
     public static void getServiceArticleClass(retrofit.Callback callback) {
-        Call<ArticleListClassResponse> call = ServiceGenerator.createService(ServerAPI.class).getServiceArticleListClass();
+        Call<ArticleListClassResponse> call = ServiceGenerator.createService(ServerAPI.class, false).getServiceArticleListClass();
         call.enqueue(callback);
     }
 //
@@ -72,4 +77,9 @@ public class ServerQuery {
 //        Call<ResponseBody> call = ServiceGenerator.createService(ServerAPI.class).getMovie(movie_name);
 //        call.enqueue(callback);
 //    }
+
+    public static void postPerson(Person p, retrofit.Callback callback) {
+        Call<PersonResponse> call = ServiceGenerator.createService(ServerAPI.class, false).postPerson(p);
+        call.enqueue(callback);
+    }
 }
