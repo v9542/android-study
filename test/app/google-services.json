@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1011998038585",
+    "firebase_url": "https://test-d4d50.firebaseio.com",
+    "project_id": "test-d4d50",
+    "storage_bucket": "test-d4d50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011998038585:android:641bd00e21a4d295",
+        "android_client_info": {
+          "package_name": "com.somo.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011998038585-89mhnd3fkj2ji0vrv99fh3dqh39f7ifa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaIQIHcT4kIOutbZP4JY0ksxFxgTyWDuQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
