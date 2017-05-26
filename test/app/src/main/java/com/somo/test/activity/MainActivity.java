@@ -26,12 +26,6 @@ import com.somo.test.adapter.ListAdapter;
 import com.somo.test.adapter.MyRecyclerViewAdapter;
 import com.somo.test.listener.EndlessRecyclerOnScrollListener;
 import com.somo.test.model.Data;
-import com.somo.test.server.ArticleClass;
-import com.somo.test.server.ArticleListClassResponse;
-import com.somo.test.server.BasicResponse;
-import com.somo.test.server.ClearTimeRequest;
-import com.somo.test.server.RequirementRequest;
-import com.somo.test.server.ServerQuery;
 import com.somo.test.server.User;
 
 import java.util.ArrayList;
