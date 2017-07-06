@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.example.yebonkim.etawett.model.Chat;
+
 import java.util.List;
 
 /**

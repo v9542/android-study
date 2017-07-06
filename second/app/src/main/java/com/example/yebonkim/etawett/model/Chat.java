@@ -1,4 +1,4 @@
-package com.example.yebonkim.etawett;
+package com.example.yebonkim.etawett.model;
 
 /**
  * Created by yebonkim on 2017. 5. 25..
